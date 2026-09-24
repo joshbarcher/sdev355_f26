@@ -1,0 +1,97 @@
+:root {
+    --bg: #2b2e33;
+    --panel: #33373d;
+    --card: #3a3e45;
+    --line: #4d525b;
+    --star-empty: #5f6570;
+    --text: #f5f3ef;
+    --muted: #a9aeb6;
+    --mint: #9fd8c4;
+    --gold: #f0dfa0;
+    --peri: #a6c8f0;
+    --peach: #f3c7a3;
+  }
+  
+  * { box-sizing: border-box; }
+  
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  .app {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 36px 32px 36px;
+  }
+  
+  /* Header */
+  .header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 28px;
+  }
+  .header-title {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  .header-meta { margin: 0; color: var(--muted); font-size: 14px; }
+  
+  /* Panel */
+  .panel {
+    background: var(--panel);
+    border-radius: 12px;
+    padding: 20px 20px 20px;
+    margin-bottom: 18px;
+  }
+  .panel-title {
+    margin: 0 0 16px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--peach);
+  }
+  .panel-body { display: flex; flex-direction: column; gap: 14px; }
+  
+  /* BookCard */
+  .card {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .card-title { margin: 0; font-size: 17px; font-weight: 600; line-height: 1.3; }
+  .card-author { margin: 5px 0 10px; color: var(--muted); font-size: 14px; }
+  .card-rating { margin: 0; font-size: 15px; letter-spacing: 2px; }
+  .card-stars { color: var(--gold); }
+  .card-stars-empty { color: var(--star-empty); }
+  
+  /* StatusTag */
+  .status {
+    flex: none;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .status-reading  { background: rgba(240, 223, 160, 0.16); color: var(--gold); }
+  .status-want     { background: rgba(166, 200, 240, 0.16); color: var(--peri); }
+  .status-finished { background: rgba(159, 216, 196, 0.16); color: var(--mint); }
+  
