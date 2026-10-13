@@ -1,7 +1,7 @@
-import Header from "./Header"
-import Footer from "./Footer"
-import BookCard from "./BookCard"
-import Panel from "./Panel"
+import Header from "./components/Header"
+import Footer from "./components/Footer"
+import BookCard from "./components/BookCard"
+import Panel from "./components/Panel"
 
 const BOOKS = [
     {
@@ -59,51 +59,25 @@ const finishedReading = BOOKS.filter(el => el.status === "finished");
 const wishlist = BOOKS.filter(el => el.status === "want");
 const unstarted = BOOKS.filter(el => el.status === "unstarted");
 
-const booksReading = BOOKS.length === 0 ?
-    <p>No books found</p> :
-    <p>We got books</p>;
-
-let booksWaiting;
-if (BOOKS.length === 0) {
-    booksWaiting = <p>No books to read yet</p>
-} else {
-    booksWaiting = <p>I've got books</p>
-}
-
-// const bookCards = BOOKS.map(book => <BookCard 
-//     title={book.title} 
-//     author={book.author} 
-//     pages={book.pages} 
-//     rating={book.rating} />);
-
-    
-const bookCards = BOOKS.map(book => <BookCard book={book} />);
-
 export default function App() {
     return (
         <div className="app">
             <Header />
 
             <Panel title="Currently reading">
-                {currentlyReading.length > 0 && currentlyReading.map(book => {
-                    return (
-                        <BookCard
-                            key={book.id}
-                            title={book.title}
-                            author={book.author}
-                            pages={book.pages}
-                            rating={book.rating}
-                        />
-                    )
-                })}
+                {currentlyReading.length > 0 && 
+                 currentlyReading.map(book => <BookCard key={book.id} book={book} /> )}
+                
             </Panel>
 
             <Panel title="Want to read">
-                {wishlist.length > 0 && wishlist.map(book => <BookCard key={book.id} title={book.title} author={book.author} pages={book.pages} rating={book.rating} /> )}
+                {wishlist.length > 0 && 
+                 wishlist.map(book => <BookCard key={book.id} book={book} /> )}
             </Panel>
 
             <Panel title="Finished reading">
-                {finishedReading.length > 0 && finishedReading.map(book => <BookCard key={book.id} {...book} /> )}
+                {finishedReading.length > 0 && 
+                 finishedReading.map(book => <BookCard key={book.id} book={book} /> )}
             </Panel>
 
             <Footer></Footer>
