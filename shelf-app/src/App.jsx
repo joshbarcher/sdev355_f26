@@ -3,6 +3,7 @@ import Footer from "./components/Footer"
 import BookCard from "./components/BookCard"
 import Panel from "./components/Panel"
 import Search from "./components/Search"
+import AddForm from './components/AddForm'
 import { useState } from 'react'
 
 const BOOKS = [
@@ -60,6 +61,20 @@ export default function App() {
     const [books, setBooks] = useState(BOOKS);
     const [query, setQuery] = useState("");
 
+    function addBook(title) {
+        const book = {
+            id: title, 
+            title: title,
+            author: "",
+            status: "reading",
+            pages: 0,
+            tags: []
+        }
+
+        //don't change the original state in books, create a new array
+        setBooks([ ...books, book]);
+    }
+
     const filteredBooks = query ? 
         books.filter(el => el.title.toLowerCase().includes(query.toLowerCase())) : 
         books;
@@ -74,6 +89,9 @@ export default function App() {
         <div className="app">
             <Header />
             <Search value={query} onQueryChange={setQuery} />
+            <hr />
+            <AddForm onAdd={addBook} />
+            <hr />
 
             <Panel title="Currently reading">
                 {currentlyReading.length > 0 && 

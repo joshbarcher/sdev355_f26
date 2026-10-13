@@ -61,6 +61,10 @@ body {
     margin-bottom: 18px;
 }
 
+.panel:first-of-type {
+    margin-top: 20px;
+}
+
 .panel-title {
     margin: 0 0 16px;
     font-size: 13px;
@@ -145,6 +149,11 @@ body {
 }
 
 /* The two controlled inputs. */
+label {
+    display: block;
+    margin-bottom: 6px;
+}
+
 .search {
     display: flex;
     gap: 8px;
@@ -195,5 +204,5 @@ body {
 .add {
     display: flex;
     gap: 8px;
-    margin-bottom: 26px;
+    /* margin-bottom: 26px; */
 }
