@@ -56,14 +56,19 @@ const BOOKS = [
     },
 ];
 
-const currentlyReading = BOOKS.filter(el => el.status === "reading");
-const finishedReading = BOOKS.filter(el => el.status === "finished");
-const wishlist = BOOKS.filter(el => el.status === "want");
-const unstarted = BOOKS.filter(el => el.status === "unstarted");
-
 export default function App() {
     const [books, setBooks] = useState(BOOKS);
     const [query, setQuery] = useState("");
+
+    const filteredBooks = query ? 
+        books.filter(el => el.title.toLowerCase().includes(query.toLowerCase())) : 
+        books;
+
+    //derived values
+    const currentlyReading = filteredBooks.filter(el => el.status === "reading");
+    const finishedReading = filteredBooks.filter(el => el.status === "finished");
+    const wishlist = filteredBooks.filter(el => el.status === "want");
+    const unstarted = filteredBooks.filter(el => el.status === "unstarted");
 
     return (
         <div className="app">
