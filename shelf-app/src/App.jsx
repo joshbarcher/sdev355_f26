@@ -2,6 +2,8 @@ import Header from "./components/Header"
 import Footer from "./components/Footer"
 import BookCard from "./components/BookCard"
 import Panel from "./components/Panel"
+import Search from "./components/Search"
+import { useState } from 'react'
 
 const BOOKS = [
     {
@@ -60,9 +62,13 @@ const wishlist = BOOKS.filter(el => el.status === "want");
 const unstarted = BOOKS.filter(el => el.status === "unstarted");
 
 export default function App() {
+    const [books, setBooks] = useState(BOOKS);
+    const [query, setQuery] = useState("");
+
     return (
         <div className="app">
             <Header />
+            <Search value={query} onQueryChange={setQuery} />
 
             <Panel title="Currently reading">
                 {currentlyReading.length > 0 && 
