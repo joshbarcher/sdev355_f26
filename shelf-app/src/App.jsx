@@ -1,7 +1,11 @@
-import Header from "./Header"
-import Footer from "./Footer"
-import BookCard from "./BookCard"
-import Panel from "./Panel"
+import Header from "./components/Header"
+import Footer from "./components/Footer"
+import BookCard from "./components/BookCard"
+import Panel from "./components/Panel"
+import Search from "./components/Search"
+import AddForm from "./components/AddForm"
+import { useState } from "react"
+import { useEffect } from "react"
 
 const BOOKS = [
     {
@@ -54,56 +58,63 @@ const BOOKS = [
     },
 ];
 
-const currentlyReading = BOOKS.filter(el => el.status === "reading");
-const finishedReading = BOOKS.filter(el => el.status === "finished");
-const wishlist = BOOKS.filter(el => el.status === "want");
-const unstarted = BOOKS.filter(el => el.status === "unstarted");
-
-const booksReading = BOOKS.length === 0 ?
-    <p>No books found</p> :
-    <p>We got books</p>;
-
-let booksWaiting;
-if (BOOKS.length === 0) {
-    booksWaiting = <p>No books to read yet</p>
-} else {
-    booksWaiting = <p>I've got books</p>
-}
-
-// const bookCards = BOOKS.map(book => <BookCard 
-//     title={book.title} 
-//     author={book.author} 
-//     pages={book.pages} 
-//     rating={book.rating} />);
-
-    
-const bookCards = BOOKS.map(book => <BookCard book={book} />);
-
 export default function App() {
+    const [query, setQuery] = useState("");
+    const [books, setBooks] = useState(BOOKS);
+    const [finished, setFinished] = useState(false);
+
+    const options = { isFinished: finished };
+
+    useEffect(() => {
+        console.log("Effect fired", options);
+    }, [options])
+
+    useEffect(() => {
+        document.title = `Shelf: ${books.length} books`;
+        console.log(`updated title - ${books.length}`);
+    }, [books.length])
+
+    const filteredBooks = query ? books.filter(el => el.title.toLowerCase().includes(query.toLowerCase())): books;
+
+    const currentlyReading = filteredBooks.filter(el => el.status === "reading");
+    const finishedReading = filteredBooks.filter(el => el.status === "finished");
+    const wishlist = filteredBooks.filter(el => el.status === "want");
+    const unstarted = filteredBooks.filter(el => el.status === "unstarted");
+
+    function handleAddBook(bookTitle) {
+        setBooks(old => [...old, { 
+            id: bookTitle,
+            title: bookTitle,
+            author: "unspecified",
+            status: "reading",
+            rating: 0,
+            tags: []
+        }])
+    }
+
     return (
         <div className="app">
             <Header />
 
+            <Search value={query} onQueryChange={setQuery} />
+            <AddForm onAdd={handleAddBook} />
+
             <Panel title="Currently reading">
                 {currentlyReading.length > 0 && currentlyReading.map(book => {
-                    return (
-                        <BookCard
-                            key={book.id}
-                            title={book.title}
-                            author={book.author}
-                            pages={book.pages}
-                            rating={book.rating}
-                        />
-                    )
+                    return ( <BookCard key={book.id} book={book} /> )
                 })}
             </Panel>
 
             <Panel title="Want to read">
-                {wishlist.length > 0 && wishlist.map(book => <BookCard key={book.id} title={book.title} author={book.author} pages={book.pages} rating={book.rating} /> )}
+                {wishlist.length > 0 && wishlist.map(book => {
+                    return ( <BookCard key={book.id} book={book} /> )
+                })}
             </Panel>
 
             <Panel title="Finished reading">
-                {finishedReading.length > 0 && finishedReading.map(book => <BookCard key={book.id} {...book} /> )}
+                {finishedReading.length > 0 && finishedReading.map(book => {
+                    return ( <BookCard key={book.id} book={book} /> )
+                })}
             </Panel>
 
             <Footer></Footer>
