@@ -206,3 +206,85 @@ label {
     gap: 8px;
     /* margin-bottom: 26px; */
 }
+
+.state {
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.state-wait {
+    font-style: italic;
+}
+
+.state-failed {
+    color: var(--peach);
+}
+
+.state-empty {
+    font-style: italic;
+}
+
+.state-retry {
+    margin-top: 12px;
+    font: inherit;
+    font-size: 13px;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 8px 14px;
+    cursor: pointer;
+}
+
+.state-retry:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--peach);
+}
+
+.detail {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--peri);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 0 0 16px;
+}
+
+.detail-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.detail-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.detail-author {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.detail-notes {
+    margin: 9px 0 0;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.detail-wait,
+.detail-failed {
+    color: var(--muted);
+    font-size: 13px;
+    font-style: italic;
+    border-left-color: var(--line);
+}
+
+.detail-failed {
+    color: var(--peach);
+}
