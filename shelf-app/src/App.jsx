@@ -4,10 +4,15 @@ import BookCard from "./components/BookCard"
 import Panel from "./components/Panel"
 import Search from "./components/Search"
 import AddForm from './components/AddForm'
+import BookShelf from "./components/BookShelf"
 import { useState, useEffect } from 'react'
 
 export default function App() {
     const [books, setBooks] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [reloads, setReloads] = useState(0);
+
     const [query, setQuery] = useState("");
 
     function addBook(title) {
@@ -32,6 +37,11 @@ export default function App() {
         )
     }
 
+    function handleReload() {
+        console.log("Trying to reload!");
+        setReloads(num => num + 1);
+    }
+
     const filteredBooks = query ? 
         books.filter(el => el.title.toLowerCase().includes(query.toLowerCase())) : 
         books;
@@ -44,19 +54,28 @@ export default function App() {
 
     useEffect(() => {
         const load = async () => {
+            //clean up state to track the fetch() call
+            setLoading(true);
+            setError(null);
+
             try {
-                const res = await fetch("http://localhost:4000/api/books", { method: "get" });
-                if (!res.ok) return;
+                const res = await fetch("http://localhost:4000/api/books?delay=2000&fail=500", { method: "get" });
+                if (!res.ok) throw new Error("Error loading shelf data");
 
                 const json = await res.json();
+                console.log(json);
                 setBooks(json);
             } catch (err) {
                 console.log(err);
+                setError(err.message);
+            } finally {
+                //last step, always runs
+                setLoading(false);
             }
         }
         load();
         
-    }, [])
+    }, [reloads])
 
     return (
         <div className="app">
@@ -66,10 +85,14 @@ export default function App() {
             <Search value={query} onQueryChange={setQuery} />
             <AddForm onAdd={addBook} />
             <hr />
+            <button className="reload-button" onClick={handleReload}>Reload Books!</button>
+            <hr />
 
-            {cards("Currently reading", currentlyReading)}
-            {cards("Want to read", wishlist)}
-            {cards("Finished reading", finishedReading)}
+            <BookShelf books={books} error={error} loading={loading}>
+                {cards("Currently reading", currentlyReading)}
+                {cards("Want to read", wishlist)}
+                {cards("Finished reading", finishedReading)}
+            </BookShelf>
 
             <Footer></Footer>
         </div>

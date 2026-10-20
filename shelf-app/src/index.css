@@ -184,7 +184,8 @@ label {
 }
 
 .search-clear,
-.add-button {
+.add-button,
+.reload-button {
     font: inherit;
     font-size: 13px;
     color: var(--text);
@@ -196,7 +197,8 @@ label {
 }
 
 .search-clear:hover,
-.add-button:hover {
+.add-button:hover,
+.reload-button:hover {
     background: rgba(255, 255, 255, 0.12);
     border-color: var(--peach);
 }
