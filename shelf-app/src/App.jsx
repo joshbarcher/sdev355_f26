@@ -3,9 +3,8 @@ import Footer from "./components/Footer"
 import BookCard from "./components/BookCard"
 import Panel from "./components/Panel"
 import Search from "./components/Search"
-import AddForm from "./components/AddForm"
-import { useState } from "react"
-import { useEffect } from "react"
+import AddForm from './components/AddForm'
+import { useState } from 'react'
 
 const BOOKS = [
     {
@@ -59,62 +58,58 @@ const BOOKS = [
 ];
 
 export default function App() {
-    const [query, setQuery] = useState("");
     const [books, setBooks] = useState(BOOKS);
-    const [finished, setFinished] = useState(false);
+    const [query, setQuery] = useState("");
 
-    const options = { isFinished: finished };
+    function addBook(title) {
+        const book = {
+            id: title, 
+            title: title,
+            author: "",
+            status: "reading",
+            pages: 0,
+            tags: []
+        }
 
-    useEffect(() => {
-        console.log("Effect fired", options);
-    }, [options])
+        //don't change the original state in books, create a new array
+        setBooks([ ...books, book]);
+    }
 
-    useEffect(() => {
-        document.title = `Shelf: ${books.length} books`;
-        console.log(`updated title - ${books.length}`);
-    }, [books.length])
+    const filteredBooks = query ? 
+        books.filter(el => el.title.toLowerCase().includes(query.toLowerCase())) : 
+        books;
 
-    const filteredBooks = query ? books.filter(el => el.title.toLowerCase().includes(query.toLowerCase())): books;
-
+    //derived values
     const currentlyReading = filteredBooks.filter(el => el.status === "reading");
     const finishedReading = filteredBooks.filter(el => el.status === "finished");
     const wishlist = filteredBooks.filter(el => el.status === "want");
     const unstarted = filteredBooks.filter(el => el.status === "unstarted");
 
-    function handleAddBook(bookTitle) {
-        setBooks(old => [...old, { 
-            id: bookTitle,
-            title: bookTitle,
-            author: "unspecified",
-            status: "reading",
-            rating: 0,
-            tags: []
-        }])
-    }
-
     return (
         <div className="app">
             <Header />
+            <Search value={query} onQueryChange={setQuery} />
+            <hr />
+            <AddForm onAdd={addBook} />
+            <hr />
 
             <Search value={query} onQueryChange={setQuery} />
             <AddForm onAdd={handleAddBook} />
 
             <Panel title="Currently reading">
-                {currentlyReading.length > 0 && currentlyReading.map(book => {
-                    return ( <BookCard key={book.id} book={book} /> )
-                })}
+                {currentlyReading.length > 0 && 
+                 currentlyReading.map(book => <BookCard key={book.id} book={book} /> )}
+                
             </Panel>
 
             <Panel title="Want to read">
-                {wishlist.length > 0 && wishlist.map(book => {
-                    return ( <BookCard key={book.id} book={book} /> )
-                })}
+                {wishlist.length > 0 && 
+                 wishlist.map(book => <BookCard key={book.id} book={book} /> )}
             </Panel>
 
             <Panel title="Finished reading">
-                {finishedReading.length > 0 && finishedReading.map(book => {
-                    return ( <BookCard key={book.id} book={book} /> )
-                })}
+                {finishedReading.length > 0 && 
+                 finishedReading.map(book => <BookCard key={book.id} book={book} /> )}
             </Panel>
 
             <Footer></Footer>
