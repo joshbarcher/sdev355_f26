@@ -75,6 +75,14 @@ export default function App() {
         setBooks([ ...books, book]);
     }
 
+    function cards(title, books) {
+        return (
+            <Panel title={title}>
+                {books.length > 0 && books.map(book => <BookCard key={book.id} book={book} /> )}
+            </Panel>
+        )
+    }
+
     const filteredBooks = query ? 
         books.filter(el => el.title.toLowerCase().includes(query.toLowerCase())) : 
         books;
@@ -90,27 +98,13 @@ export default function App() {
             <Header />
             <Search value={query} onQueryChange={setQuery} />
             <hr />
+            <Search value={query} onQueryChange={setQuery} />
             <AddForm onAdd={addBook} />
             <hr />
 
-            <Search value={query} onQueryChange={setQuery} />
-            <AddForm onAdd={handleAddBook} />
-
-            <Panel title="Currently reading">
-                {currentlyReading.length > 0 && 
-                 currentlyReading.map(book => <BookCard key={book.id} book={book} /> )}
-                
-            </Panel>
-
-            <Panel title="Want to read">
-                {wishlist.length > 0 && 
-                 wishlist.map(book => <BookCard key={book.id} book={book} /> )}
-            </Panel>
-
-            <Panel title="Finished reading">
-                {finishedReading.length > 0 && 
-                 finishedReading.map(book => <BookCard key={book.id} book={book} /> )}
-            </Panel>
+            {cards("Currently reading", currentlyReading)}
+            {cards("Want to read", wishlist)}
+            {cards("Finished reading", finishedReading)}
 
             <Footer></Footer>
         </div>

@@ -1,0 +1,25 @@
+{
+	"name": "shelf-api",
+	"private": true,
+	"version": "1.0.0",
+	"type": "module",
+	"description": "Shelf API — the backend the SDEV 355 Shelf app talks to from week 4",
+	"main": "src/server.js",
+	"scripts": {
+		"dev": "node --watch src/server.js",
+		"start": "node src/server.js",
+		"test": "vitest run"
+	},
+	"engines": {
+		"node": ">=20"
+	},
+	"dependencies": {
+		"cors": "^2.8.5",
+		"express": "^5.1.0",
+		"jsonwebtoken": "^9.0.2"
+	},
+	"devDependencies": {
+		"supertest": "^7.1.4",
+		"vitest": "^5.0.5"
+	}
+}
