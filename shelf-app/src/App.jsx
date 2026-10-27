@@ -7,11 +7,16 @@ import AddForm from './components/AddForm'
 import BookShelf from "./components/BookShelf"
 import BookDetail from './components/BookDetail'
 import { useState, useEffect } from 'react'
+import { useFetch } from './hooks/hooks.js';
 
 export default function App() {
-    const [books, setBooks] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const { 
+        data: books, 
+        setData: setBooks,
+        loading, 
+        error 
+    } = useFetch("http://localhost:4000/api/books?delay=2000", [], []);
+
     const [reloads, setReloads] = useState(0);
     const [selectedId, setSelectedId] = useState("b2");
 
@@ -53,29 +58,6 @@ export default function App() {
     const finishedReading = filteredBooks.filter(el => el.status === "finished");
     const wishlist = filteredBooks.filter(el => el.status === "want");
     const unstarted = filteredBooks.filter(el => el.status === "unstarted");
-
-    useEffect(() => {
-        const load = async () => {
-            //clean up state to track the fetch() call
-            setLoading(true);
-            setError(null);
-
-            try {
-                const res = await fetch("http://localhost:4000/api/books?delay=2000", { method: "get" });
-                if (!res.ok) throw new Error("Error loading shelf data");
-
-                const json = await res.json();
-                setBooks(json);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                //last step, always runs
-                setLoading(false);
-            }
-        }
-        load();
-        
-    }, [reloads])
 
     return (
         <div className="app">
