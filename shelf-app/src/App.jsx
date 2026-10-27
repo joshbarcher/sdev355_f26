@@ -5,6 +5,7 @@ import Panel from "./components/Panel"
 import Search from "./components/Search"
 import AddForm from './components/AddForm'
 import BookShelf from "./components/BookShelf"
+import BookDetail from './components/BookDetail'
 import { useState, useEffect } from 'react'
 
 export default function App() {
@@ -12,6 +13,7 @@ export default function App() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [reloads, setReloads] = useState(0);
+    const [selectedId, setSelectedId] = useState("b2");
 
     const [query, setQuery] = useState("");
 
@@ -59,14 +61,12 @@ export default function App() {
             setError(null);
 
             try {
-                const res = await fetch("http://localhost:4000/api/books?delay=2000&fail=500", { method: "get" });
+                const res = await fetch("http://localhost:4000/api/books?delay=2000", { method: "get" });
                 if (!res.ok) throw new Error("Error loading shelf data");
 
                 const json = await res.json();
-                console.log(json);
                 setBooks(json);
             } catch (err) {
-                console.log(err);
                 setError(err.message);
             } finally {
                 //last step, always runs
@@ -86,6 +86,11 @@ export default function App() {
             <AddForm onAdd={addBook} />
             <hr />
             <button className="reload-button" onClick={handleReload}>Reload Books!</button>
+            <hr />
+
+            <BookDetail id={selectedId} />
+            <button className="btn" onClick={() => setSelectedId("b3")}>Read new book!</button>
+            <label>Selected id is {selectedId}</label>
             <hr />
 
             <BookShelf books={books} error={error} loading={loading}>
