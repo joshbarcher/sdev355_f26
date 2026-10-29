@@ -183,7 +183,7 @@ label {
     color: var(--star-empty);
 }
 
-.search-clear,
+.btn,
 .add-button,
 .reload-button {
     font: inherit;
@@ -196,7 +196,7 @@ label {
     cursor: pointer;
 }
 
-.search-clear:hover,
+.btn:hover,
 .add-button:hover,
 .reload-button:hover {
     background: rgba(255, 255, 255, 0.12);
@@ -289,4 +289,29 @@ label {
 
 .detail-failed {
     color: var(--peach);
+}
+
+a {
+    color: rgb(255, 206, 183);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* make the nav area look nice */
+nav ul {
+    display:flex;
+    flex-direction: row;
+    gap: 6px;
+    padding-left: 0;
+    list-style-type: none;
+}
+
+nav ul li {
+    border: 1px solid gray;
+    padding: 6px;
+    border-radius: 5px;
+}
+
+nav ul li:hover {
+    background-color: #151516;
 }

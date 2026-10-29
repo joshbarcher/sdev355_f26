@@ -26,3 +26,15 @@ export function useFetch(url, initialData, deps = []) {
 
     return { data, setData, loading, error }
 }
+
+export function useDebounce(value, ms) {
+    const [settled, setSettled] = useState(value);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setSettled(value), ms);
+        return () => clearTimeout(timer);
+    }, [value, ms]);
+
+    //return the settled values (after typing stops)
+    return settled;
+}

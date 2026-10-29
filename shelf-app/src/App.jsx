@@ -1,13 +1,13 @@
-import Header from "./components/Header"
-import Footer from "./components/Footer"
+import Header from "./layout/Header.jsx"
+import Footer from "./layout/Footer.jsx"
 import BookCard from "./components/BookCard"
 import Panel from "./components/Panel"
 import Search from "./components/Search"
 import AddForm from './components/AddForm'
 import BookShelf from "./components/BookShelf"
 import BookDetail from './components/BookDetail'
-import { useState, useEffect } from 'react'
-import { useFetch } from './hooks/hooks.js';
+import { useState } from 'react'
+import { useFetch, useDebounce } from './hooks/hooks.js';
 
 export default function App() {
     const { 
@@ -19,7 +19,6 @@ export default function App() {
 
     const [reloads, setReloads] = useState(0);
     const [selectedId, setSelectedId] = useState("b2");
-
     const [query, setQuery] = useState("");
 
     function addBook(title) {
@@ -49,8 +48,10 @@ export default function App() {
         setReloads(num => num + 1);
     }
 
-    const filteredBooks = query ? 
-        books.filter(el => el.title.toLowerCase().includes(query.toLowerCase())) : 
+    //filter on the search value
+    const settled = useDebounce(query, 500);
+    const filteredBooks = settled ? 
+        books.filter(el => el.title.toLowerCase().includes(settled.toLowerCase())) : 
         books;
 
     //derived values
@@ -60,9 +61,7 @@ export default function App() {
     const unstarted = filteredBooks.filter(el => el.status === "unstarted");
 
     return (
-        <div className="app">
-            <Header />
-            <Search value={query} onQueryChange={setQuery} />
+        <>
             <hr />
             <Search value={query} onQueryChange={setQuery} />
             <AddForm onAdd={addBook} />
@@ -82,6 +81,6 @@ export default function App() {
             </BookShelf>
 
             <Footer></Footer>
-        </div>
+        </>
     )
 }

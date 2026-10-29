@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useFetch } from "../hooks/hooks"
 
 export default function BookDetail({ id }) {
     const {
