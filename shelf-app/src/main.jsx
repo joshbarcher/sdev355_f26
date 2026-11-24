@@ -6,6 +6,7 @@ import Home from './pages/Home.jsx'
 import Shelf from './pages/Shelf.jsx'
 import About from './pages/About.jsx'
 import Layout from './layout/Layout.jsx'
+import Finished from './pages/Finished.jsx'
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById('root')).render(
                     <Route path="home" element={<Home />} />
                     <Route path="books" element={<Shelf />} />
                     <Route path="about" element={<About />} />
+                    <Route path="books/finished" element={<Finished />} />
                 </Route>
             </Routes>
         </BrowserRouter>

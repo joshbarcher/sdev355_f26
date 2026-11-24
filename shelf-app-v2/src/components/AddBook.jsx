@@ -1,27 +1,41 @@
-import { useState } from "react";
+import { useState, useContext, useRef } from "react";
+import { BookContext } from "../context/BookProvider";
+import { useNavigate } from "react-router";
+import { useForm } from "react-hook-form";
 
-function AddBook({ onAdd }) {
-  const [draft, setDraft] = useState("");
+function AddBook() {
+    const { register, handleSubmit } = useForm();
+    const { data: books, setData: setBooks } = useContext(BookContext);
+    const navigate = useNavigate();
 
-  function handleSubmit(e) {
-    e.preventDefault();
+    function addBook(data) {
+        const book = {
+            id: crypto.randomUUID(),
+            title: data.title.trim(),
+            author: data.author.trim(),
+            status: "want",
+            tags: [],
+        };
 
-    if (draft.trim() === "") return;
-    onAdd(draft.trim());
-    setDraft("");
-  }
+        setBooks([...books, book]);
+        navigate("/books");
+    }
 
-  return (
-    <form className="add" onSubmit={handleSubmit}>
-      <input
-        className="add-input"
-        value={draft}
-        placeholder="Add a book by title"
-        onChange={(e) => setDraft(e.target.value)}
-      />
-      <button className="add-button">Add</button>
-    </form>
-  );
+    return (
+        <form className="add" onSubmit={handleSubmit(addBook)}>
+            <input
+                { ...register("title") }
+                className="add-input"
+                placeholder="Enter title"
+            />
+            <input
+                { ...register("author") }
+                className="add-input"
+                placeholder="Enter author"
+            />
+            <button className="add-button">Add</button>
+        </form>
+    );
 }
 
 export default AddBook;

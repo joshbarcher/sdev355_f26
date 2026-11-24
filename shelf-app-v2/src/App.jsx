@@ -9,6 +9,7 @@ import About from "./components/About.jsx";
 import NotFound from "./components/NotFound.jsx";
 import OldShelf from "./components/OldShelf.jsx";
 import BookProvider from "./context/BookProvider.jsx";
+import AddBook from "./components/AddBook.jsx";
 
 function App() {
     return (
@@ -42,6 +43,7 @@ function App() {
                     <Route path="about" element={<About />} />
                     <Route path="shelf" element={<OldShelf />} />
                     <Route path="*" element={<NotFound />} />
+                    <Route path="books/new" element={<AddBook />} />
                 </Route>
             </Routes>
         </BookProvider>

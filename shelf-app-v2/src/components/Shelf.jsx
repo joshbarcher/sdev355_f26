@@ -16,31 +16,13 @@ const PAGE_SIZE = 5;
 
 function Shelf() {
     const [state, dispatch] = useReducer(viewReducer, initialState);
-    console.log(state);
-
-    //change the hide toggle
-    // let after = viewReducer(state, { type: "toggle_hide" })
-    // console.log(after);
-
-    // //change the page
-    // after = viewReducer(state, { type: "page_changed", page: 2 });
-    // console.log(after);
-
-    // //change the query
-    // after = viewReducer(after, { type: "query_changed", query: "hunger" });
-    // console.log(after);
 
     const { 
         data: books, 
         setData: setBooks, 
         loading, error, retry } = useContext(BookContext);
 
-    // const [page, setPage] = useState(1);
-    // const [hideFinished, setHideFinished] = useState(false);
-    // const [query, setQuery] = useState("");
-
     const [currentId, setCurrentId] = useState(null);
-
     const settled = useDebouncedValue(state.query, 300);
 
     function changeStatus(id, status) {
@@ -55,18 +37,6 @@ function Shelf() {
         }
     }
 
-    function addBook(title) {
-        const book = {
-            id: crypto.randomUUID(),
-            title,
-            author: "Unknown author",
-            status: "want",
-            tags: [],
-        };
-
-        setBooks([...books, book]);
-    }
-
     const matching = books.filter((book) =>
         book.title.toLowerCase().includes(settled.toLowerCase())
     );
@@ -77,12 +47,6 @@ function Shelf() {
 
     const pageCount = Math.max(1, Math.ceil(shown.length / PAGE_SIZE));
     const visible = shown.slice((state.page - 1) * PAGE_SIZE, state.page * PAGE_SIZE);
-
-    // const reading = shown.filter((book) => book.status === "reading");
-    // const want = shown.filter((book) => book.status === "want");
-    // const finished = shown.filter((book) => book.status === "finished");
-    // const abandoned = shown.filter((book) => book.status === "abandoned");
-
     const finishedCount = books.filter((b) => b.status === "finished").length;
 
     useEffect(() => {
@@ -135,7 +99,6 @@ function Shelf() {
             <NowReading book={current} />
             <SearchBox value={state.query} 
                        onChange={(value) => dispatch({ type: "query_changed", query: value })} />
-            <AddBook onAdd={addBook} />
             <Pager page={state.page} pageCount={pageCount} 
                    onChange={(value) => dispatch({ type: "page_changed", page: value})} />
 
